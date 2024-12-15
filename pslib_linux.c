@@ -435,11 +435,10 @@ bool disk_usage(const char path[], DiskUsage *ret) {
   int r;
   r = statvfs(path, &s);
   check(r == 0, "Error in calling statvfs for %s", path);
-  ret->free = s.f_bavail * s.f_frsize;
-  ret->total = s.f_blocks * s.f_frsize;
-  ret->used = (s.f_blocks - s.f_bfree) * s.f_frsize;
+  ret->free = (uint64_t)s.f_bavail * (uint64_t)s.f_frsize;
+  ret->total = (uint64_t)s.f_blocks * (uint64_t)s.f_frsize;
+  ret->used = ((uint64_t)s.f_blocks - (uint64_t)s.f_bfree) * (uint64_t)s.f_frsize;
   ret->percent = percentage(ret->used, ret->total);
-
   return true;
 error:
   return false;
@@ -1094,4 +1093,8 @@ void free_process(Process *p) {
   in http://... link_to_bug...
 
  */
-void gcov_flush(void) { __gcov_flush(); }
+void gcov_flush(void) {
+#if COVERAGE
+  __gcov_flush();
+#endif
+}

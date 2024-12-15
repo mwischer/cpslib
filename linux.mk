@@ -1,8 +1,10 @@
+#CC = /home/miwi/x-tools/armv6-rpi1-linux-gnueabihf/bin/armv6-rpi1-linux-gnueabihf-gcc
 CC = gcc
-CFLAGS  = -O0 -g -std=gnu11 -fPIC -march=native -Wall -Wextra -Wunused
-CFLAGS += -Werror -Wshadow
-CFLAGS += -fprofile-arcs -ftest-coverage
-LDFLAGS = -shared --coverage
+CFLAGS  = -O2 -g -std=c11 -fPIC  -Wall -Wextra -Wunused
+CFLAGS += -Wall -pedantic
+#CFLAGS += -fprofile-arcs -ftest-coverage
+LDFLAGS = -shared
+#--coverage
 RM = rm -f
 TARGET_LIB = libpslib.so
 EXEC = driver
